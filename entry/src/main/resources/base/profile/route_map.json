@@ -1,0 +1,44 @@
+{
+  "routerMap": [
+    {
+      "name": "selectGamePage",
+      "pageSourceFile": "src/main/ets/pages/SelectGamePage.ets",
+      "buildFunction": "SelectGamePageBuilder",
+      "data": {
+        "description": "this is select game page"
+      }
+    },
+    {
+      "name": "gameColorFocus",
+      "pageSourceFile": "src/main/ets/pages/GameColorFocus.ets",
+      "buildFunction": "GameColorFocusBuilder",
+      "data": {
+        "description": "this is game color focus page"
+      }
+    },
+    {
+      "name": "gameNumberFlash",
+      "pageSourceFile": "src/main/ets/pages/GameNumberFlash.ets",
+      "buildFunction": "NumberFlashPageBuilder",
+      "data": {
+        "description": "this is game number flash page"
+      }
+    },
+    {
+      "name": "gameMemoryBlock",
+      "pageSourceFile": "src/main/ets/pages/GameMemoryBlock.ets",
+      "buildFunction": "GameMemoryBlockPageBuilder",
+      "data": {
+        "description": "this is game memory block page"
+      }
+    },
+    {
+      "name": "languagePage",
+      "pageSourceFile": "src/main/ets/pages/LanguagePage.ets",
+      "buildFunction": "LanguagePageBuilder",
+      "data": {
+        "description": "this is language page"
+      }
+    }
+  ]
+}
