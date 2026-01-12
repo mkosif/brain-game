@@ -419,8 +419,7 @@ export const selectGameTexts: Record<string, {
   title: string,
   colorFocus: string,
   numberFlash: string,
-  memoryBlock: string,
-
+  memoryBlock: string
 }> = {
   en: {
     title: 'Choose a Game',

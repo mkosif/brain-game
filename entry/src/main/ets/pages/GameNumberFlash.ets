@@ -1,5 +1,5 @@
-import { numberFlashTexts } from '../viewmodel/translations';
-import { getLang, subscribeLang } from '../viewmodel/langStore';
+import { numberFlashTexts } from '../viewModel/translations';
+import { getLang, subscribeLang } from '../viewModel/langStore';
 import { PromptAction } from '@kit.ArkUI';
 
 @Builder
@@ -44,7 +44,7 @@ export struct NumberFlashPage {
   randomDigits(len: number): string {
     let n = '';
     for (let i = 0; i < len; i++) {
-      n += Math.floor(Math.random() * 10).toString();
+      n += Math.floor(Date.now() % 10).toString();
     }
     return n;
   }

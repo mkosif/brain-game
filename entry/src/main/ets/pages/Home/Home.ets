@@ -2,8 +2,8 @@
 import { webview } from '@kit.ArkWeb';
 
 webview.once('webInited', () => {
-  console.log('configCookieSync');
-  webview.WebCookieManager.configCookieSync('https://www.google.com', 'a=b');
+  console.info('configCookieSync');
+  webview.WebCookieManager.configCookieSync('xxx.xxx.xxx', 'a=b');
 })
 
 @Component
@@ -13,7 +13,7 @@ export struct Home {
   @Link bottomTabIndex: number;
   build() {
     Column() {
-      Web({ src: 'www.google.com', controller: this.controller })
+     // Web({ src: 'www.google.com', controller: this.controller })
     }
   }
 }

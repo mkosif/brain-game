@@ -36,7 +36,7 @@ struct SplashScreen {
             // Anti-aliasing settings.
             this.canvasRenderingContext.imageSmoothingEnabled = true;
             this.canvasRenderingContext.imageSmoothingQuality = 'medium'
-            this.loadAnimation();
+            //this.loadAnimation();
           }
         })
     }
@@ -44,20 +44,20 @@ struct SplashScreen {
     .width('100%').justifyContent(FlexAlign.Center).alignItems(HorizontalAlign.Center)
   }
 
-  loadAnimation() {
-    this.animateItem = lottie.loadAnimation({
-      container: this.canvasRenderingContext,
-      renderer: 'canvas', // canvas renderer
-      loop: true,
-      autoplay: false,
-      name: this.animateName,
-      contentMode: 'Contain',
-      path: 'common/animation.json',
-    })
-    // Animations are loaded asynchronously
-    this.animateItem.addEventListener('DOMLoaded', (args: Object): void => {
-      this.animateItem!.changeColor([225, 25, 100, 1]);
-      this.animateItem!.play()
-    });
-  }
+  // loadAnimation() {
+  //   this.animateItem = lottie.loadAnimation({
+  //     container: this.canvasRenderingContext,
+  //     renderer: 'canvas', // canvas renderer
+  //     loop: true,
+  //     autoplay: false,
+  //     name: this.animateName,
+  //     contentMode: 'Contain',
+  //     path: 'common/animation.json'
+  //   })
+  //   // Animations are loaded asynchronously
+  //   this.animateItem.addEventListener('DOMLoaded', (args: Object): void => {
+  //     this.animateItem!.changeColor([225, 25, 100, 1]);
+  //     this.animateItem!.play()
+  //   });
+  // }
 }

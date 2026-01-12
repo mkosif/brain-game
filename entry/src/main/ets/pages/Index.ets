@@ -1,7 +1,7 @@
 import { ArcList, ArcListItem, ArcListAttribute } from '@ohos.arkui.ArcList';
 import { LengthMetrics } from '@kit.ArkUI';
-import { getLang, subscribeLang } from '../viewmodel/langStore';
-import { indexTexts } from '../viewmodel/translations';
+import { getLang, subscribeLang } from '../viewModel/langStore';
+import { indexTexts } from '../viewModel/translations';
 
 @Entry
 @Component

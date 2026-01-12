@@ -1,6 +1,6 @@
 import { PromptAction } from '@kit.ArkUI';
-import { getLang, subscribeLang } from '../viewmodel/langStore';
-import { memoryGridTexts } from '../viewmodel/translations';
+import { getLang, subscribeLang } from '../viewModel/langStore';
+import { memoryGridTexts } from '../viewModel/translations';
 
 @Builder
 export function GameMemoryBlockPageBuilder() {
@@ -44,7 +44,7 @@ export struct GameMemoryBlock {
   shuffle(): void {
     const newIcons = [...this.icons];
     for (let i = newIcons.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(Date.now() % (i + 1));
       let temp = newIcons[i];
       newIcons[i] = newIcons[j];
       newIcons[j] = temp;
@@ -97,8 +97,7 @@ export struct GameMemoryBlock {
         Text(memoryGridTexts[this.lang].title)
           .fontSize(16)
           .margin({ top: 8 })
-        Text(memoryGridTexts[this.lang].time + ': ' + this.timer + 's | ' + memoryGridTexts[this.lang].moves + ': ' +
-        this.moves)
+        Text(`${memoryGridTexts[this.lang].time}: ${this.timer}s | ${memoryGridTexts[this.lang].moves}: ${this.moves}`)
           .fontSize(12)
           .margin({ top: 8 })
         Grid() {
@@ -115,7 +114,7 @@ export struct GameMemoryBlock {
                 .alignSelf(ItemAlign.Center)
                 .onClick(() => this.checkMatch(index));
             }
-          });
+          }, (item: string, index: number) => item)
         }
         .height('50%')
         .columnsTemplate('repeat(4, 0.9fr)')

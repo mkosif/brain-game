@@ -1,5 +1,5 @@
-import { colorFocusTexts } from '../viewmodel/translations';
-import { getLang, subscribeLang } from '../viewmodel/langStore';
+import { colorFocusTexts } from '../viewModel/translations';
+import { getLang, subscribeLang } from '../viewModel/langStore';
 import { PromptAction } from '@kit.ArkUI';
 
 
@@ -23,16 +23,18 @@ export struct GameColorFocus {
 
 
   onDestroy(): void {
-    if (this.timerId) clearInterval(this.timerId);
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
   }
 
   private pickRandomWord(): void {
-    const wIndex = Math.floor(Math.random() * this.colors.length);
-    let cIndex = Math.floor(Math.random() * this.colors.length);
+    const wIndex = Math.floor(Date.now() % this.colors.length);
+    let cIndex = Math.floor(Date.now() % this.colors.length);
 
-    if (Math.random() > 0.4) {
+    if ((Date.now() % 100) / 100 > 0.4) {
       while (cIndex === wIndex) {
-        cIndex = Math.floor(Math.random() * this.colors.length);
+        cIndex = Math.floor(Date.now() % this.colors.length);
       }
     }
 
@@ -41,8 +43,9 @@ export struct GameColorFocus {
   }
 
   private startTimer(): void {
-    if (this.timerId) clearInterval(this.timerId);
-
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
     this.timeLeft = 20;
     this.timerId = setInterval(() => {
       this.timeLeft -= 1;

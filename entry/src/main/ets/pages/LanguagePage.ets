@@ -1,8 +1,8 @@
-import { supportedLangs, getLang, setLang, subscribeLang, Lang } from '../viewmodel/langStore';
+import { supportedLangs, getLang, setLang, subscribeLang, Lang } from '../viewModel/langStore';
 import { ArcList, ArcListItem, ArcListAttribute } from '@ohos.arkui.ArcList';
 import { LengthMetrics } from '@kit.ArkUI';
 
-import { languagePageTexts } from '../viewmodel/translations';
+import { languagePageTexts } from '../viewModel/translations';
 
 @Builder
 export function LanguagePageBuilder() {
@@ -34,7 +34,7 @@ export struct LanguagePage {
                   setLang(item.code);
                 });
             }
-          });
+          }, (item: Lang) => JSON.stringify(item));
         }
         .space(LengthMetrics.px(30))
         .margin({ bottom: 20 })
