@@ -1,4 +1,4 @@
-import { getLang, subscribeLang } from '../viewModel/langStore';
+import { getLang, resolveLang, subscribeLang } from '../viewModel/langStore';
 import { selectGameTexts } from '../viewModel/translations';
 import { ArcList, ArcListItem, ArcListAttribute } from '@ohos.arkui.ArcList';
 import { LengthMetrics } from '@kit.ArkUI';
@@ -59,11 +59,7 @@ export struct SelectGamePage {
     }
     .onShown(() => {
       this.unsubLang = subscribeLang((newLang: string) => {
-        if (selectGameTexts[newLang]) {
-          this.lang = newLang;
-        } else {
-          this.lang = 'en';
-        }
+        this.lang = resolveLang(selectGameTexts, newLang);
       });
     })
     .onHidden(() => {

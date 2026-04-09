@@ -1,5 +1,5 @@
 import { PromptAction } from '@kit.ArkUI';
-import { getLang, subscribeLang } from '../viewModel/langStore';
+import { getLang, resolveLang, subscribeLang } from '../viewModel/langStore';
 import { memoryGridTexts } from '../viewModel/translations';
 
 @Builder
@@ -134,11 +134,7 @@ export struct GameMemoryBlock {
     .onShown(() => {
       this.startGame();
       this.unsubLang = subscribeLang((newLang: string) => {
-        if (memoryGridTexts[newLang]) {
-          this.lang = newLang;
-        } else {
-          this.lang = 'en';
-        }
+        this.lang = resolveLang(memoryGridTexts, newLang);
       });
     })
     .onHidden(() => {

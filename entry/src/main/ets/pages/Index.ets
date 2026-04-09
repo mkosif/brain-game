@@ -1,6 +1,6 @@
 import { ArcList, ArcListItem, ArcListAttribute } from '@ohos.arkui.ArcList';
 import { LengthMetrics } from '@kit.ArkUI';
-import { getLang, subscribeLang } from '../viewModel/langStore';
+import { getLang, resolveLang, subscribeLang } from '../viewModel/langStore';
 import { indexTexts } from '../viewModel/translations';
 
 @Entry
@@ -49,11 +49,7 @@ struct Index {
     }
     .onAppear(() => {
       subscribeLang((newLang: string) => {
-        if (indexTexts[newLang]) {
-          this.lang = newLang;
-        } else {
-          this.lang = 'en';
-        }
+        this.lang = resolveLang(indexTexts, newLang);
       });
     })
     .hideTitleBar(true)

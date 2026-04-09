@@ -5,18 +5,46 @@ export interface Lang {
   label: string
 }
 
-let currentLang = 'en';
+export const DEFAULT_LANG = 'en';
+
+export const supportedLangs: Lang[] = [
+  { code: 'en', label: 'English' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'fr', label: 'Français' },
+  { code: 'es', label: 'Espanol' },
+  { code: 'ar', label: 'العربية' },
+  { code: 'th', label: 'ภาษาไทย' },
+  { code: 'ja', label: '日本語' },
+  { code: 'ko', label: '한국어' },
+  { code: 'ru', label: 'Русский' },
+  { code: 'zh', label: '中文' }
+];
+
+let currentLang = DEFAULT_LANG;
 const listeners: Array<(lang: string) => void> = [];
 let store: preferences.Preferences | null = null;
 const LANG_KEY = 'selectedLang';
 
+export function isSupportedLang(code: string): boolean {
+  return supportedLangs.some((lang: Lang) => lang.code === code);
+}
+
+export function normalizeLang(code: string): string {
+  if (!code) {
+    return DEFAULT_LANG;
+  }
+  return isSupportedLang(code) ? code : DEFAULT_LANG;
+}
+
+export function resolveLang<T>(texts: Record<string, T>, code: string = currentLang): string {
+  const normalized = normalizeLang(code);
+  return texts[normalized] ? normalized : DEFAULT_LANG;
+}
+
 export function initLangStore(context: Context): void {
   try {
     store = preferences.getPreferencesSync(context, { name: 'langStore' });
-    const saved = store.getSync(LANG_KEY, 'en') as string;
-    if (saved && saved !== currentLang) {
-      currentLang = saved;
-    }
+    currentLang = normalizeLang(store.getSync(LANG_KEY, DEFAULT_LANG) as string);
   } catch (e) {
     console.error('langStore: failed to init preferences', e);
   }
@@ -27,13 +55,14 @@ export function getLang(): string {
 }
 
 export function setLang(code: string) {
-  if (currentLang === code) {
+  const normalized = normalizeLang(code);
+  if (currentLang === normalized) {
     return;
   }
-  currentLang = code;
+  currentLang = normalized;
   if (store) {
     try {
-      store.putSync(LANG_KEY, code);
+      store.putSync(LANG_KEY, normalized);
       store.flush();
     } catch (e) {
       console.error('langStore: failed to persist lang', e);
@@ -59,18 +88,4 @@ export function subscribeLang(cb: (lang: string) => void) {
     }
   }
 }
-
-export const supportedLangs: Lang[] =
-  [
-    { code: 'en', label: 'English' },
-    { code: 'de', label: 'Deutsch' },
-    { code: 'fr', label: 'Français' },
-    { code: 'es', label: 'Espanol' },
-    { code: 'ar', label: 'العربية' },
-    { code: 'th', label: 'ภาษาไทย' },
-    { code: 'ja', label: '日本語' },
-    { code: 'ko', label: '한국어' },
-    { code: 'ru', label: 'Русский' },
-    { code: 'zh', label: '中文' }
-  ]
 

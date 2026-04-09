@@ -1,4 +1,4 @@
-import { supportedLangs, getLang, setLang, subscribeLang, Lang } from '../viewModel/langStore';
+import { supportedLangs, getLang, setLang, resolveLang, subscribeLang, Lang } from '../viewModel/langStore';
 import { ArcList, ArcListItem, ArcListAttribute } from '@ohos.arkui.ArcList';
 import { LengthMetrics } from '@kit.ArkUI';
 
@@ -48,11 +48,9 @@ export struct LanguagePage {
     }
     .onShown(() => {
       this.unsubLang = subscribeLang((newLang: string) => {
-        if (languagePageTexts[newLang]) {
-          this.lang = newLang;
-        } else {
-          this.lang = 'en';
-        }
+        const resolvedLang = resolveLang(languagePageTexts, newLang);
+        this.lang = resolvedLang;
+        this.selected = resolvedLang;
       });
     })
     .onHidden(() => {

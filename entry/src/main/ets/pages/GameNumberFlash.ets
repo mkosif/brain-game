@@ -1,5 +1,5 @@
 import { numberFlashTexts } from '../viewModel/translations';
-import { getLang, subscribeLang } from '../viewModel/langStore';
+import { getLang, resolveLang, subscribeLang } from '../viewModel/langStore';
 import { PromptAction } from '@kit.ArkUI';
 
 @Builder
@@ -20,6 +20,17 @@ export struct NumberFlashPage {
   private promptAction: PromptAction = this.uiContext.getPromptAction();
   private hideTimer: number | null = null;
   private unsubLang: (() => void) | null = null;
+
+  private showToast(message: string, duration: number): void {
+    try {
+      this.promptAction.showToast({
+        message: message,
+        duration: duration
+      });
+    } catch (e) {
+      console.error('NumberFlashPage: failed to show toast', e);
+    }
+  }
 
   generate(): void {
     const digits = this.level + 1;
@@ -48,18 +59,10 @@ export struct NumberFlashPage {
     if (this.userInput === this.number) {
       this.score += 10;
       this.level += 1;
-
-      this.promptAction.showToast({
-        message: numberFlashTexts[this.lang].correct,
-        duration: 20
-      });
+      this.showToast(numberFlashTexts[this.lang].correct, 20);
     } else {
       this.score -= 5;
-
-      this.promptAction.showToast({
-        message: numberFlashTexts[this.lang].wrong,
-        duration: 20
-      });
+      this.showToast(numberFlashTexts[this.lang].wrong, 20);
     }
 
     this.generate();
@@ -117,11 +120,7 @@ export struct NumberFlashPage {
     .onShown(() => {
       this.generate();
       this.unsubLang = subscribeLang((newLang: string) => {
-        if (numberFlashTexts[newLang]) {
-          this.lang = newLang;
-        } else {
-          this.lang = 'en';
-        }
+        this.lang = resolveLang(numberFlashTexts, newLang);
       });
     })
     .onHidden(() => {
