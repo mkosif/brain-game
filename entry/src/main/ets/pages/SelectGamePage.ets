@@ -12,6 +12,7 @@ export function SelectGamePageBuilder() {
 export struct SelectGamePage {
   pathStack: NavPathStack = new NavPathStack()
   @State lang: string = getLang();
+  private unsubLang: (() => void) | null = null;
 
   build() {
     NavDestination() {
@@ -57,9 +58,19 @@ export struct SelectGamePage {
       .height('100%')
     }
     .onShown(() => {
-      subscribeLang((newLang: string) => {
-        this.lang = newLang;
+      this.unsubLang = subscribeLang((newLang: string) => {
+        if (selectGameTexts[newLang]) {
+          this.lang = newLang;
+        } else {
+          this.lang = 'en';
+        }
       });
+    })
+    .onHidden(() => {
+      if (this.unsubLang) {
+        this.unsubLang();
+        this.unsubLang = null;
+      }
     })
     .hideBackButton(true)
     .onReady((context: NavDestinationContext) => {

@@ -20,6 +20,7 @@ export struct GameColorFocus {
   @State timeLeft: number = 20;
 
   private timerId: number | null = null;
+  private unsubLang: (() => void) | null = null;
 
 
   onDestroy(): void {
@@ -29,12 +30,12 @@ export struct GameColorFocus {
   }
 
   private pickRandomWord(): void {
-    const wIndex = Math.floor(Date.now() % this.colors.length);
-    let cIndex = Math.floor(Date.now() % this.colors.length);
+    const wIndex = Math.floor(Math.random() * this.colors.length);
+    let cIndex = Math.floor(Math.random() * this.colors.length);
 
-    if ((Date.now() % 100) / 100 > 0.4) {
+    if (Math.random() > 0.4) {
       while (cIndex === wIndex) {
-        cIndex = Math.floor(Date.now() % this.colors.length);
+        cIndex = Math.floor(Math.random() * this.colors.length);
       }
     }
 
@@ -58,6 +59,7 @@ export struct GameColorFocus {
           duration: 30
         });
         this.score = 0;
+        this.pickRandomWord();
         this.startTimer();
       }
     }, 1000);
@@ -142,10 +144,19 @@ export struct GameColorFocus {
     .onShown(() => {
       this.pickRandomWord();
       this.startTimer();
-
-      subscribeLang((newLang: string) => {
-        this.lang = newLang;
+      this.unsubLang = subscribeLang((newLang: string) => {
+        if (colorFocusTexts[newLang]) {
+          this.lang = newLang;
+        } else {
+          this.lang = 'en';
+        }
       });
+    })
+    .onHidden(() => {
+      if (this.unsubLang) {
+        this.unsubLang();
+        this.unsubLang = null;
+      }
     })
     .hideBackButton(true)
     .onReady((context: NavDestinationContext) => {

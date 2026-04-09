@@ -20,6 +20,7 @@ export struct GameMemoryBlock {
   private promptAction: PromptAction = this.uiContext.getPromptAction();
   timerId: number | null = null;
   pathStack: NavPathStack = new NavPathStack()
+  private unsubLang: (() => void) | null = null;
 
   startGame(): void {
     this.prepareIcons();
@@ -44,7 +45,7 @@ export struct GameMemoryBlock {
   shuffle(): void {
     const newIcons = [...this.icons];
     for (let i = newIcons.length - 1; i > 0; i--) {
-      const j = Math.floor(Date.now() % (i + 1));
+      const j = Math.floor(Math.random() * (i + 1));
       let temp = newIcons[i];
       newIcons[i] = newIcons[j];
       newIcons[j] = temp;
@@ -114,7 +115,7 @@ export struct GameMemoryBlock {
                 .alignSelf(ItemAlign.Center)
                 .onClick(() => this.checkMatch(index));
             }
-          }, (item: string, index: number) => item)
+          }, (item: string, index: number) => index.toString())
         }
         .height('50%')
         .columnsTemplate('repeat(4, 0.9fr)')
@@ -132,13 +133,23 @@ export struct GameMemoryBlock {
     }
     .onShown(() => {
       this.startGame();
-      subscribeLang((newLang: string) => {
+      this.unsubLang = subscribeLang((newLang: string) => {
         if (memoryGridTexts[newLang]) {
           this.lang = newLang;
         } else {
           this.lang = 'en';
         }
       });
+    })
+    .onHidden(() => {
+      if (this.timerId !== null) {
+        clearInterval(this.timerId);
+        this.timerId = null;
+      }
+      if (this.unsubLang) {
+        this.unsubLang();
+        this.unsubLang = null;
+      }
     })
     .hideBackButton(true)
     .onReady((context: NavDestinationContext) => {

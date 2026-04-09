@@ -19,12 +19,7 @@ export struct NumberFlashPage {
   private uiContext: UIContext = this.getUIContext();
   private promptAction: PromptAction = this.uiContext.getPromptAction();
   private hideTimer: number | null = null;
-
-  onPageHide() {
-    if (this.hideTimer) {
-      clearTimeout(this.hideTimer);
-    }
-  }
+  private unsubLang: (() => void) | null = null;
 
   generate(): void {
     const digits = this.level + 1;
@@ -44,7 +39,7 @@ export struct NumberFlashPage {
   randomDigits(len: number): string {
     let n = '';
     for (let i = 0; i < len; i++) {
-      n += Math.floor(Date.now() % 10).toString();
+      n += Math.floor(Math.random() * 10).toString();
     }
     return n;
   }
@@ -121,9 +116,23 @@ export struct NumberFlashPage {
     }
     .onShown(() => {
       this.generate();
-      subscribeLang((newLang: string) => {
-        this.lang = newLang;
+      this.unsubLang = subscribeLang((newLang: string) => {
+        if (numberFlashTexts[newLang]) {
+          this.lang = newLang;
+        } else {
+          this.lang = 'en';
+        }
       });
+    })
+    .onHidden(() => {
+      if (this.hideTimer) {
+        clearTimeout(this.hideTimer);
+        this.hideTimer = null;
+      }
+      if (this.unsubLang) {
+        this.unsubLang();
+        this.unsubLang = null;
+      }
     })
     .hideBackButton(true)
     .onReady((context: NavDestinationContext) => {

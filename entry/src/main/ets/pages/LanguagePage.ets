@@ -14,6 +14,7 @@ export struct LanguagePage {
   pathStack: NavPathStack = new NavPathStack()
   @State selected: string = getLang();
   @State lang: string = getLang();
+  private unsubLang: (() => void) | null = null;
 
   build() {
     NavDestination() {
@@ -46,13 +47,19 @@ export struct LanguagePage {
       .height('100%')
     }
     .onShown(() => {
-      subscribeLang((newLang: string) => {
+      this.unsubLang = subscribeLang((newLang: string) => {
         if (languagePageTexts[newLang]) {
           this.lang = newLang;
         } else {
           this.lang = 'en';
         }
       });
+    })
+    .onHidden(() => {
+      if (this.unsubLang) {
+        this.unsubLang();
+        this.unsubLang = null;
+      }
     })
     .hideBackButton(true)
     .onReady((context: NavDestinationContext) => {
