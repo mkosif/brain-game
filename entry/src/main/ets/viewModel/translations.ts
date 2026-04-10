@@ -84,12 +84,12 @@ export const indexTexts: Record<string, {
 }> = {
   en: {
     title: 'Mind Games',
-    start: 'Start Training',
+    start: 'Start',
     language: 'Language'
   },
   de: {
     title: 'Denkspiele',
-    start: 'Training Starten',
+    start: 'Start',
     language: 'Sprache'
   },
   fr: {
@@ -99,12 +99,12 @@ export const indexTexts: Record<string, {
   },
   es: {
     title: 'Juegos Mentales',
-    start: 'Iniciar Entrenamiento',
+    start: 'Iniciar',
     language: 'Idioma'
   },
   ar: {
     title: 'ألعاب ذهنية',
-    start: 'ابدأ التدريب',
+    start: 'ابدأ',
     language: 'اللغة'
   },
   th: {
@@ -114,7 +114,7 @@ export const indexTexts: Record<string, {
   },
   ja: {
     title: 'マインドゲーム',
-    start: 'トレーニング開始',
+    start: '開始',
     language: '言語'
   },
   ko: {
@@ -124,12 +124,12 @@ export const indexTexts: Record<string, {
   },
   ru: {
     title: 'Ментальные Игры',
-    start: 'Начать Тренировку',
+    start: 'Старт',
     language: 'Язык'
   },
   zh: {
     title: '脑力游戏',
-    start: '开始训练',
+    start: '开始',
     language: '语言'
   }
 };
@@ -138,34 +138,34 @@ export const languagePageTexts: Record<string, {
   title: string
 }> = {
   en: {
-    title: 'Select Language'
+    title: 'Language'
   },
   de: {
-    title: 'Sprache wählen'
+    title: 'Sprache'
   },
   fr: {
-    title: 'Choisir la langue'
+    title: 'Langue'
   },
   es: {
-    title: 'Seleccionar idioma'
+    title: 'Idioma'
   },
   ar: {
-    title: 'اختر اللغة'
+    title: 'اللغة'
   },
   th: {
     title: 'เลือกภาษา'
   },
   ja: {
-    title: '言語を選択'
+    title: '言語'
   },
   ko: {
-    title: '언어 선택'
+    title: '언어'
   },
   ru: {
-    title: 'Выберите язык'
+    title: 'Язык'
   },
   zh: {
-    title: '选择语言'
+    title: '语言'
   }
 };
 
@@ -423,74 +423,74 @@ export const selectGameTexts: Record<string, {
   sequenceTap: string
 }> = {
   en: {
-    title: 'Choose a Game',
-    colorFocus: 'Color Focus',
-    numberFlash: 'Number Flash',
-    memoryBlock: 'Memory Block',
-    sequenceTap: 'Sequence Tap'
+    title: 'Games',
+    colorFocus: 'Colors',
+    numberFlash: 'Numbers',
+    memoryBlock: 'Memory',
+    sequenceTap: 'Sequence'
   },
   de: {
-    title: 'Spiel wählen',
-    colorFocus: 'Farb Fokus',
-    numberFlash: 'Zahlenblitz',
-    memoryBlock: 'Memory Block',
-    sequenceTap: 'Sequenz Tippen'
+    title: 'Spiele',
+    colorFocus: 'Farben',
+    numberFlash: 'Zahlen',
+    memoryBlock: 'Memory',
+    sequenceTap: 'Sequenz'
   },
   fr: {
-    title: 'Choisir un jeu',
-    colorFocus: 'Focus Couleur',
-    numberFlash: 'Flash Numérique',
-    memoryBlock: 'Bloc Mémoire',
-    sequenceTap: 'Séquence Tap'
+    title: 'Jeux',
+    colorFocus: 'Couleurs',
+    numberFlash: 'Nombres',
+    memoryBlock: 'Mémoire',
+    sequenceTap: 'Séquence'
   },
   es: {
-    title: 'Elegir un juego',
-    colorFocus: 'Enfoque de Color',
-    numberFlash: 'Destello Numérico',
-    memoryBlock: 'Bloque de Memoria',
-    sequenceTap: 'Toque Secuencia'
+    title: 'Juegos',
+    colorFocus: 'Colores',
+    numberFlash: 'Números',
+    memoryBlock: 'Memoria',
+    sequenceTap: 'Secuencia'
   },
   ar: {
-    title: 'اختر لعبة',
-    colorFocus: 'تركيز الألوان',
-    numberFlash: 'وميض الأرقام',
-    memoryBlock: 'كتلة الذاكرة',
-    sequenceTap: 'تسلسل النقر'
+    title: 'ألعاب',
+    colorFocus: 'ألوان',
+    numberFlash: 'أرقام',
+    memoryBlock: 'ذاكرة',
+    sequenceTap: 'تسلسل'
   },
   th: {
-    title: 'เลือกเกม',
-    colorFocus: 'โฟกัสสี',
-    numberFlash: 'แฟลชตัวเลข',
-    memoryBlock: 'บล็อกความจำ',
-    sequenceTap: 'แตะตามลำดับ'
+    title: 'เกม',
+    colorFocus: 'สี',
+    numberFlash: 'ตัวเลข',
+    memoryBlock: 'ความจำ',
+    sequenceTap: 'ลำดับ'
   },
   ja: {
-    title: 'ゲームを選択',
-    colorFocus: 'カラーフォーカス',
-    numberFlash: 'ナンバーフラッシュ',
-    memoryBlock: 'メモリーブロック',
-    sequenceTap: 'シーケンスタップ'
+    title: 'ゲーム',
+    colorFocus: '色',
+    numberFlash: '数字',
+    memoryBlock: '記憶',
+    sequenceTap: '順番'
   },
   ko: {
-    title: '게임 선택',
-    colorFocus: '색상 집중',
-    numberFlash: '숫자 플래시',
-    memoryBlock: '메모리 블록',
-    sequenceTap: '순서 탭'
+    title: '게임',
+    colorFocus: '색상',
+    numberFlash: '숫자',
+    memoryBlock: '기억',
+    sequenceTap: '순서'
   },
   ru: {
-    title: 'Выберите игру',
-    colorFocus: 'Цветовой Фокус',
-    numberFlash: 'Числовая Вспышка',
-    memoryBlock: 'Блок Памяти',
-    sequenceTap: 'Тап Последовательность'
+    title: 'Игры',
+    colorFocus: 'Цвета',
+    numberFlash: 'Числа',
+    memoryBlock: 'Память',
+    sequenceTap: 'Порядок'
   },
   zh: {
-    title: '选择游戏',
-    colorFocus: '颜色专注',
-    numberFlash: '数字闪现',
-    memoryBlock: '记忆方块',
-    sequenceTap: '顺序点击'
+    title: '游戏',
+    colorFocus: '颜色',
+    numberFlash: '数字',
+    memoryBlock: '记忆',
+    sequenceTap: '顺序'
   }
 };
 

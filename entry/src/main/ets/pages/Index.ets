@@ -13,15 +13,17 @@ struct Index {
     Navigation(this.pathStack) {
       Column() {
         Text(indexTexts[this.lang].title)
-          .fontSize(16)
-          .margin({ bottom: 20 })
+          .fontSize(15)
+          .margin({ bottom: 10 })
 
         ArcList() {
 
           ArcListItem() {
             Button(indexTexts[this.lang].start)
-              .fontSize(12)
-              .margin({ bottom: 20 })
+              .width(130)
+              .height(32)
+              .fontSize(11)
+              .margin({ bottom: 8 })
               .onClick(() => {
                 this.pathStack.pushPathByName('selectGamePage', null)
               });
@@ -29,21 +31,24 @@ struct Index {
 
           ArcListItem() {
             Button(indexTexts[this.lang].language)
-              .fontSize(12)
-              .margin({ bottom: 20 })
+              .width(130)
+              .height(32)
+              .fontSize(11)
+              .margin({ bottom: 8 })
               .onClick(() => {
                 this.pathStack.pushPathByName('languagePage', null)
               });
           }
 
         }
-        .space(LengthMetrics.px(30))
-        .margin({ bottom: 20 })
+        .space(LengthMetrics.px(12))
+        .margin({ bottom: 8 })
         .scrollBar(BarState.Off)
 
       }
-      .padding(20)
+      .padding(12)
       .justifyContent(FlexAlign.Center)
+      .alignItems(HorizontalAlign.Center)
       .width('100%')
       .height('100%')
     }
