@@ -9,6 +9,8 @@ export const DEFAULT_LANG = 'en';
 
 export const supportedLangs: Lang[] = [
   { code: 'en', label: 'English' },
+  { code: 'zh', label: '中文' },
+  { code: 'tr', label: 'Türkçe' },
   { code: 'de', label: 'Deutsch' },
   { code: 'fr', label: 'Français' },
   { code: 'es', label: 'Espanol' },
@@ -16,8 +18,7 @@ export const supportedLangs: Lang[] = [
   { code: 'th', label: 'ภาษาไทย' },
   { code: 'ja', label: '日本語' },
   { code: 'ko', label: '한국어' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'zh', label: '中文' }
+  { code: 'ru', label: 'Русский' }
 ];
 
 let currentLang = DEFAULT_LANG;

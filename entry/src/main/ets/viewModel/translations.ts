@@ -74,6 +74,13 @@ export const memoryGridTexts: Record<string, {
     moves: '步数',
     restart: '重新开始',
     completed: '在 {time} 秒内完成，共 {moves} 步！'
+  },
+  tr: {
+    title: 'Hafıza Izgarası',
+    time: 'Süre',
+    moves: 'Hamle',
+    restart: 'Yeniden Başlat',
+    completed: '{time} saniyede ve {moves} hamlede tamamlandı!'
   }
 };
 
@@ -131,6 +138,11 @@ export const indexTexts: Record<string, {
     title: '脑力游戏',
     start: '开始',
     language: '语言'
+  },
+  tr: {
+    title: 'Beyin Oyunları',
+    start: 'Başla',
+    language: 'Dil'
   }
 };
 
@@ -166,6 +178,9 @@ export const languagePageTexts: Record<string, {
   },
   zh: {
     title: '语言'
+  },
+  tr: {
+    title: 'Dil'
   }
 };
 
@@ -289,6 +304,17 @@ export const colorFocusTexts: Record<string, {
     green: '绿色',
     blue: '蓝色',
     yellow: '黄色'
+  },
+  tr: {
+    title: 'Renk Odağı',
+    time: 'Süre',
+    score: 'Puan',
+    correct: 'Doğru!',
+    wrong: 'Yanlış!',
+    red: 'Kırmızı',
+    green: 'Yeşil',
+    blue: 'Mavi',
+    yellow: 'Sarı'
   }
 };
 
@@ -412,6 +438,17 @@ export const numberFlashTexts: Record<string, {
     score: '分数',
     level: '等级',
     inputPlaceholder: '请输入数字'
+  },
+  tr: {
+    title: 'Sayı Flaşı',
+    hidden: 'Gizli',
+    next: 'Sonraki',
+    enter: 'Gir',
+    correct: 'Doğru!',
+    wrong: 'Yanlış!',
+    score: 'Puan',
+    level: 'Seviye',
+    inputPlaceholder: 'Sayıyı girin'
   }
 };
 
@@ -491,6 +528,13 @@ export const selectGameTexts: Record<string, {
     numberFlash: '数字',
     memoryBlock: '记忆',
     sequenceTap: '顺序'
+  },
+  tr: {
+    title: 'Oyunlar',
+    colorFocus: 'Renkler',
+    numberFlash: 'Sayılar',
+    memoryBlock: 'Hafıza',
+    sequenceTap: 'Sıra'
   }
 };
 
@@ -647,6 +691,20 @@ export const sequenceTapTexts: Record<string, {
     green: '绿色',
     blue: '蓝色',
     yellow: '黄色'
+  },
+  tr: {
+    title: 'Sıra Oyunu',
+    level: 'Seviye',
+    score: 'Puan',
+    start: 'Başla',
+    watch: 'İzle',
+    repeat: 'Tekrarla',
+    correct: 'Doğru!',
+    wrong: 'Yanlış!',
+    red: 'Kırmızı',
+    green: 'Yeşil',
+    blue: 'Mavi',
+    yellow: 'Sarı'
   }
 };
 
