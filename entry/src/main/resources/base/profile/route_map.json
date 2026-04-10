@@ -33,6 +33,14 @@
       }
     },
     {
+      "name": "gameSequenceTap",
+      "pageSourceFile": "src/main/ets/pages/GameSequenceTap.ets",
+      "buildFunction": "GameSequenceTapBuilder",
+      "data": {
+        "description": "this is game sequence tap page"
+      }
+    },
+    {
       "name": "languagePage",
       "pageSourceFile": "src/main/ets/pages/LanguagePage.ets",
       "buildFunction": "LanguagePageBuilder",

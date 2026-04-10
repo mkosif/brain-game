@@ -47,6 +47,15 @@ export struct SelectGamePage {
                 this.pathStack.pushPathByName('gameMemoryBlock', null);
               });
           }
+
+          ArcListItem() {
+            Button(selectGameTexts[this.lang].sequenceTap)
+              .margin({ bottom: 20 })
+              .fontSize(12)
+              .onClick(() => {
+                this.pathStack.pushPathByName('gameSequenceTap', null);
+              });
+          }
         }
         .space(LengthMetrics.px(30))
         .margin({ bottom: 20 })
