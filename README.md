@@ -3,9 +3,9 @@
 # Brain Games 
 
 A collection of lightweight mini mind games optimized for Huawei smartwatches.
-Includes Memory Grid (matching), Number Flash (quick memory), and Color Focus.
+Includes Memory Grid (matching), Number Flash (quick memory), Color Focus, and Sequence Tap.
 Built entirely with HarmonyOS (ArkTS).
-Features multi-language support, responsive grid layout, language listeners.
+Features multi-language support, compact watch layouts, responsive game grids, and language persistence.
 
 # Preview
 <div>
@@ -57,7 +57,8 @@ entry/
 │ │ ├── GameColorFocus.ets
 │ │ ├── GameNumberFlash.ets
 │ │ ├── GameMemoryBlock.ets
-│ │ ├── SelectGamePage.ets 
+│ │ ├── GameSequenceTap.ets
+│ │ ├── SelectGamePage.ets
 │ │ ├── LanguagePage.ets
 │ │ ├── Index.ets
 │ │
