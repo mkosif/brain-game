@@ -1,5 +1,3 @@
-> **Note:** To access all shared projects, get information about environment setup, and view other guides, please visit [Explore-In-HMOS-Wearable Index](https://github.com/Explore-In-HMOS-Wearable/hmos-index).
-
 # Brain Games 
 
 A collection of lightweight mini mind games optimized for Huawei smartwatches.

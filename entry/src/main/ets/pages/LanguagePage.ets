@@ -1,4 +1,4 @@
-import { supportedLangs, getLang, setLang, resolveLang, subscribeLang, Lang } from '../viewModel/langStore';
+import { supportedLangs, getLang, setLang, subscribeLang, Lang } from '../viewModel/langStore';
 import { ArcList, ArcListItem, ArcListAttribute } from '@ohos.arkui.ArcList';
 import { LengthMetrics } from '@kit.ArkUI';
 
@@ -14,23 +14,20 @@ export struct LanguagePage {
   pathStack: NavPathStack = new NavPathStack()
   @State selected: string = getLang();
   @State lang: string = getLang();
-  private unsubLang: (() => void) | null = null;
 
   build() {
     NavDestination() {
       Column() {
         Text(languagePageTexts[this.lang].title)
-          .fontSize(14)
-          .margin({ bottom: 6 });
+          .fontSize(16)
+          .margin({ bottom: 10 });
 
         ArcList() {
           ForEach(supportedLangs, (item: Lang) => {
             ArcListItem() {
               Button(item.label)
-                .width(118)
-                .height(28)
-                .fontSize(11)
-                .margin({ bottom: 5 })
+                .fontSize(12)
+                .margin({ bottom: 12 })
                 .backgroundColor(this.selected === item.code ? '#3c3cff' : '#333333')
                 .onClick(() => {
                   this.selected = item.code;
@@ -39,28 +36,23 @@ export struct LanguagePage {
             }
           }, (item: Lang) => JSON.stringify(item));
         }
-        .space(LengthMetrics.px(8))
-        .margin({ bottom: 6 })
+        .space(LengthMetrics.px(30))
+        .margin({ bottom: 20 })
         .scrollBar(BarState.Off)
       }
-      .padding(12)
+      .padding(20)
       .justifyContent(FlexAlign.Center)
-      .alignItems(HorizontalAlign.Center)
       .width('100%')
       .height('100%')
     }
     .onShown(() => {
-      this.unsubLang = subscribeLang((newLang: string) => {
-        const resolvedLang = resolveLang(languagePageTexts, newLang);
-        this.lang = resolvedLang;
-        this.selected = resolvedLang;
+      subscribeLang((newLang: string) => {
+        if (languagePageTexts[newLang]) {
+          this.lang = newLang;
+        } else {
+          this.lang = 'en';
+        }
       });
-    })
-    .onHidden(() => {
-      if (this.unsubLang) {
-        this.unsubLang();
-        this.unsubLang = null;
-      }
     })
     .hideBackButton(true)
     .onReady((context: NavDestinationContext) => {

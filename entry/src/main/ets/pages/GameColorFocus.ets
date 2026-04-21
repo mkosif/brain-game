@@ -1,5 +1,5 @@
 import { colorFocusTexts } from '../viewModel/translations';
-import { getLang, resolveLang, subscribeLang } from '../viewModel/langStore';
+import { getLang, subscribeLang } from '../viewModel/langStore';
 import { PromptAction } from '@kit.ArkUI';
 
 
@@ -10,7 +10,6 @@ export function GameColorFocusBuilder() {
 @Component
 export struct GameColorFocus {
   private colors: string[] = ['red', 'green', 'blue', 'yellow'];
-  private readonly feedbackDurationMs: number = 900;
   private uiContext: UIContext = this.getUIContext();
   private promptAction: PromptAction = this.uiContext.getPromptAction();
   pathStack: NavPathStack = new NavPathStack()
@@ -19,58 +18,28 @@ export struct GameColorFocus {
   @State displayColor: string = 'black';
   @State score: number = 0;
   @State timeLeft: number = 20;
-  @State feedbackKey: 'correct' | 'wrong' | '' = '';
 
   private timerId: number | null = null;
-  private unsubLang: (() => void) | null = null;
-  private feedbackTimerId: number | null = null;
 
 
   onDestroy(): void {
     if (this.timerId) {
       clearInterval(this.timerId);
     }
-    this.clearFeedbackTimer();
-  }
-
-  private getDisplayColor(color: string): string {
-    switch (color) {
-      case 'red':
-        return '#d32f2f';
-      case 'green':
-        return '#2e7d32';
-      case 'blue':
-        return '#1565c0';
-      case 'yellow':
-        return '#c49000';
-      default:
-        return 'black';
-    }
-  }
-
-  private showToast(message: string, duration: number): void {
-    try {
-      this.promptAction.showToast({
-        message: message,
-        duration: duration
-      });
-    } catch (e) {
-      console.error('GameColorFocus: failed to show toast', e);
-    }
   }
 
   private pickRandomWord(): void {
-    const wIndex = Math.floor(Math.random() * this.colors.length);
-    let cIndex = Math.floor(Math.random() * this.colors.length);
+    const wIndex = Math.floor(Date.now() % this.colors.length);
+    let cIndex = Math.floor(Date.now() % this.colors.length);
 
-    if (Math.random() > 0.4) {
+    if ((Date.now() % 100) / 100 > 0.4) {
       while (cIndex === wIndex) {
-        cIndex = Math.floor(Math.random() * this.colors.length);
+        cIndex = Math.floor(Date.now() % this.colors.length);
       }
     }
 
     this.word = this.colors[wIndex];
-    this.displayColor = this.getDisplayColor(this.colors[cIndex]);
+    this.displayColor = this.colors[cIndex];
   }
 
   private startTimer(): void {
@@ -84,37 +53,29 @@ export struct GameColorFocus {
       if (this.timeLeft <= 0) {
         clearInterval(this.timerId!);
         this.timerId = null;
-        this.showToast(`${colorFocusTexts[this.lang].score}: ${this.score}`, 30);
+        this.promptAction.showToast({
+          message: `${colorFocusTexts[this.lang].score}: ${this.score}`,
+          duration: 30
+        });
         this.score = 0;
-        this.pickRandomWord();
         this.startTimer();
       }
     }, 1000);
   }
 
-  private clearFeedbackTimer(): void {
-    if (this.feedbackTimerId) {
-      clearTimeout(this.feedbackTimerId);
-      this.feedbackTimerId = null;
-    }
-  }
-
-  private showFeedback(result: 'correct' | 'wrong'): void {
-    this.feedbackKey = result;
-    this.clearFeedbackTimer();
-    this.feedbackTimerId = setTimeout(() => {
-      this.feedbackKey = '';
-      this.feedbackTimerId = null;
-    }, this.feedbackDurationMs);
-  }
-
   onChoose(choice: string): void {
     if (choice === this.word) {
       this.score += 10;
-      this.showFeedback('correct');
+      this.promptAction.showToast({
+        message: colorFocusTexts[this.lang].correct,
+        duration: 10
+      });
     } else {
       this.score -= 5;
-      this.showFeedback('wrong');
+      this.promptAction.showToast({
+        message: colorFocusTexts[this.lang].wrong,
+        duration: 10
+      });
     }
 
     this.pickRandomWord();
@@ -123,20 +84,21 @@ export struct GameColorFocus {
   build(): void {
     NavDestination(){
     Column() {
-      Column({ space: 4 }) {
-        Text(`${colorFocusTexts[this.lang].time}: ${this.timeLeft}s`)
-          .fontSize(12);
-        Text(`${colorFocusTexts[this.lang].score}: ${this.score}`)
-          .fontSize(14);
-      }
-      .margin({ bottom: 12 });
 
-      Column() {
-        Text(colorFocusTexts[this.lang][this.word])
-          .fontSize(20)
-          .fontColor(this.displayColor);
-      }
-      .margin({ bottom: 14 });
+      Text(colorFocusTexts[this.lang].title)
+        .fontSize(16)
+        .margin({ bottom: 8 });
+
+
+      Text(`${colorFocusTexts[this.lang].time}: ${this.timeLeft}s`)
+        .fontSize(12)
+        .margin({ bottom: 8 });
+
+
+      Text(colorFocusTexts[this.lang][this.word])
+        .fontSize(18)
+        .fontColor(this.displayColor)
+        .margin({ bottom: 12 });
 
 
       Row({space: 10}) {
@@ -167,19 +129,10 @@ export struct GameColorFocus {
           .onClick(() => this.onChoose('yellow'));
       }.margin({ bottom: 12 });
 
-      if (this.feedbackKey) {
-        Text(colorFocusTexts[this.lang][this.feedbackKey])
-          .fontSize(14)
-          .fontColor(this.feedbackKey === 'correct' ? '#2e7d32' : '#c62828')
-          .height(20)
-          .margin({ top: 6 });
-      } else {
-        Text(' ')
-          .fontSize(14)
-          .height(20)
-          .opacity(0)
-          .margin({ top: 6 });
-      }
+
+      Text(`${colorFocusTexts[this.lang].score}: ${this.score}`)
+        .fontSize(14)
+        .margin({ top: 8 });
     }
     .padding(20)
     .justifyContent(FlexAlign.Center)
@@ -189,21 +142,10 @@ export struct GameColorFocus {
     .onShown(() => {
       this.pickRandomWord();
       this.startTimer();
-      this.unsubLang = subscribeLang((newLang: string) => {
-        this.lang = resolveLang(colorFocusTexts, newLang);
+
+      subscribeLang((newLang: string) => {
+        this.lang = newLang;
       });
-    })
-    .onHidden(() => {
-      if (this.timerId) {
-        clearInterval(this.timerId);
-        this.timerId = null;
-      }
-      this.feedbackKey = '';
-      this.clearFeedbackTimer();
-      if (this.unsubLang) {
-        this.unsubLang();
-        this.unsubLang = null;
-      }
     })
     .hideBackButton(true)
     .onReady((context: NavDestinationContext) => {
