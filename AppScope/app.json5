@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.hmosdemos.wearable.braingame",
+    "bundleName": "com.hmosdemos.wearable.brain_game",
     "vendor": "hmosdemos",
     "versionCode": 1000000,
     "versionName": "1.0.0",

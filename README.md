@@ -1,30 +1,23 @@
-> **Note:** To access all shared projects, get information about environment setup, and view other guides, please visit [Explore-In-HMOS-Wearable Index](https://github.com/Explore-In-HMOS-Wearable/hmos-index).
+# Brain Game
 
-# Brain Games 
+Brain Game is a HarmonyOS wearable app with three mini games: Memory Grid, Number Flash, and Color Focus.
+It is built with ArkTS and ArkUI for compact smartwatch layouts.
 
-A collection of lightweight mini mind games optimized for Huawei smartwatches.
-Includes Memory Grid (matching), Number Flash (quick memory), Color Focus, and Sequence Tap.
-Built entirely with HarmonyOS (ArkTS).
-Features multi-language support, compact watch layouts, responsive game grids, and language persistence.
+> Note: Shared project guides are available in [Explore-In-HMOS-Wearable Index](https://github.com/Explore-In-HMOS-Wearable/hmos-index).
 
 # Preview
 <div>
-  <img src="screenshots/ss1.png" width="24%">
-  <img src="screenshots/ss.png" width="24%">
-  <img src="screenshots/ss2.png" width="24%">
-  <img src="screenshots/ss3.png" width="24%">
+  <img src="screenshots/ss1.png" width="24%" alt="Language page">
+  <img src="screenshots/ss.png" width="24%" alt="Home page">
+  <img src="screenshots/ss2.png" width="24%" alt="Game selection page">
+  <img src="screenshots/ss3.png" width="24%" alt="Game page">
 </div>
 
 # Use Cases
-
 - Memory improvement
-
-- Visual focus & attention
-
+- Visual focus and attention
 - Fast thinking
-
-- Eye–mind coordination
-
+- Eye and mind coordination
 - Quick brain exercises on a watch
 
 # Technology
@@ -32,45 +25,29 @@ Features multi-language support, compact watch layouts, responsive game grids, a
 - **Languages**: ArkTS, ArkUI
 - **Frameworks**: HarmonyOS 6.0.0 Beta3
 - **Tools**: DevEco Studio 6.0.0.828
-- **Libraries**:
-    - `@kit.ArkUI`
-    - `@ohos.arkui.ArcList`
+- **Libraries**: `@kit.ArkUI`, `@ohos.arkui.ArcList`
 
 # Directory Structure
-
-```
+```text
 entry/
-├── src/main/
-│ 
 ├── src/main/ets/
-│ ├── viewmodel/
-│ │ ├── langStore.ets
-│ │ └── translations.ts
-│ │
-│ ├── entryability/
-│ │ └── EntryAbility.ets
-│ │
-│ ├── entrybackupability/
-│ │ └── EntryBackupAbility.ets
-│ │
-│ ├── pages/
-│ │ ├── GameColorFocus.ets
-│ │ ├── GameNumberFlash.ets
-│ │ ├── GameMemoryBlock.ets
-│ │ ├── GameSequenceTap.ets
-│ │ ├── SelectGamePage.ets
-│ │ ├── LanguagePage.ets
-│ │ ├── Index.ets
-│ │
+│   ├── entryability/EntryAbility.ets
+│   ├── entrybackupability/EntryBackupAbility.ets
+│   ├── pages/
+│   │   ├── GameColorFocus.ets
+│   │   ├── GameMemoryBlock.ets
+│   │   ├── GameNumberFlash.ets
+│   │   ├── Index.ets
+│   │   ├── LanguagePage.ets
+│   │   └── SelectGamePage.ets
+│   └── viewModel/
+│       ├── langStore.ets
+│       └── translations.ts
 ```
 
-# Constraints and Restrictions
-## Supported Device
-
-* Huawei Watch 5
+# Supported Device
+- Huawei Watch 5
 
 # License
-
-**Brain Game** is distributed under the terms of the MIT License
-
+Brain Game is distributed under the terms of the MIT License.
 See the [LICENSE](./LICENSE) for more information.

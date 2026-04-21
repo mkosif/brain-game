@@ -1,6 +1,7 @@
 import { numberFlashTexts } from '../viewModel/translations';
 import { getLang, resolveLang, subscribeLang } from '../viewModel/langStore';
 import { PromptAction } from '@kit.ArkUI';
+import { secureRandomNumber } from '../utils/SecureRandom';
 
 @Builder
 export function NumberFlashPageBuilder() {
@@ -50,7 +51,8 @@ export struct NumberFlashPage {
   randomDigits(len: number): string {
     let n = '';
     for (let i = 0; i < len; i++) {
-      n += Math.floor(Math.random() * 10).toString();
+      const digit = Math.floor(secureRandomNumber() * 10).toString();
+      n = `${n}${digit}`;
     }
     return n;
   }
@@ -110,7 +112,6 @@ export struct NumberFlashPage {
           .fontSize(12)
           .onClick(() => this.generate())
           .margin({ bottom: 5 });
-
       }
       .padding(20)
       .justifyContent(FlexAlign.Center)
