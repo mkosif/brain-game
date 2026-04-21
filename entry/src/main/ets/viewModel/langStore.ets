@@ -1,5 +1,3 @@
-import { preferences } from '@kit.ArkData';
-
 export interface Lang {
   code: string;
   label: string
@@ -23,8 +21,6 @@ export const supportedLangs: Lang[] = [
 
 let currentLang = DEFAULT_LANG;
 const listeners: Array<(lang: string) => void> = [];
-let store: preferences.Preferences | null = null;
-const LANG_KEY = 'selectedLang';
 
 export function isSupportedLang(code: string): boolean {
   return supportedLangs.some((lang: Lang) => lang.code === code);
@@ -42,15 +38,6 @@ export function resolveLang<T>(texts: Record<string, T>, code: string = currentL
   return texts[normalized] ? normalized : DEFAULT_LANG;
 }
 
-export function initLangStore(context: Context): void {
-  try {
-    store = preferences.getPreferencesSync(context, { name: 'langStore' });
-    currentLang = normalizeLang(store.getSync(LANG_KEY, DEFAULT_LANG) as string);
-  } catch (e) {
-    console.error('langStore: failed to init preferences', e);
-  }
-}
-
 export function getLang(): string {
   return currentLang
 }
@@ -61,14 +48,6 @@ export function setLang(code: string) {
     return;
   }
   currentLang = normalized;
-  if (store) {
-    try {
-      store.putSync(LANG_KEY, normalized);
-      store.flush();
-    } catch (e) {
-      console.error('langStore: failed to persist lang', e);
-    }
-  }
   for (const l of listeners) {
     try {
       l(currentLang)
@@ -89,4 +68,3 @@ export function subscribeLang(cb: (lang: string) => void) {
     }
   }
 }
-

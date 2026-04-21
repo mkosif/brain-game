@@ -1,7 +1,7 @@
 import { colorFocusTexts } from '../viewModel/translations';
 import { getLang, resolveLang, subscribeLang } from '../viewModel/langStore';
 import { PromptAction } from '@kit.ArkUI';
-
+import { secureRandomNumber } from '../utils/SecureRandom';
 
 @Builder
 export function GameColorFocusBuilder() {
@@ -24,7 +24,6 @@ export struct GameColorFocus {
   private timerId: number | null = null;
   private unsubLang: (() => void) | null = null;
   private feedbackTimerId: number | null = null;
-
 
   onDestroy(): void {
     if (this.timerId) {
@@ -60,12 +59,12 @@ export struct GameColorFocus {
   }
 
   private pickRandomWord(): void {
-    const wIndex = Math.floor(Math.random() * this.colors.length);
-    let cIndex = Math.floor(Math.random() * this.colors.length);
+    const wIndex = Math.floor(secureRandomNumber() * this.colors.length);
+    let cIndex = Math.floor(secureRandomNumber() * this.colors.length);
 
-    if (Math.random() > 0.4) {
+    if (secureRandomNumber() > 0.4) {
       while (cIndex === wIndex) {
-        cIndex = Math.floor(Math.random() * this.colors.length);
+        cIndex = Math.floor(secureRandomNumber() * this.colors.length);
       }
     }
 
@@ -138,7 +137,6 @@ export struct GameColorFocus {
       }
       .margin({ bottom: 14 });
 
-
       Row({space: 10}) {
         Button(colorFocusTexts[this.lang].red)
           .fontSize(12)
@@ -166,7 +164,6 @@ export struct GameColorFocus {
           .height(30)
           .onClick(() => this.onChoose('yellow'));
       }.margin({ bottom: 12 });
-
       if (this.feedbackKey) {
         Text(colorFocusTexts[this.lang][this.feedbackKey])
           .fontSize(14)

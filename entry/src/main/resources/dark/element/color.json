@@ -3,6 +3,22 @@
     {
       "name": "start_window_background",
       "value": "#000000"
+    },
+    {
+      "name": "card_font_color",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "card_bg_closed",
+      "value": "#121212"
+    },
+    {
+      "name": "card_bg_opened",
+      "value": "#3A3A3A"
+    },
+    {
+      "name": "card_bg_matched",
+      "value": "#1B5E20"
     }
   ]
 }

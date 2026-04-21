@@ -1,23 +1,22 @@
 import { PromptAction } from '@kit.ArkUI';
 import { getLang, resolveLang, subscribeLang } from '../viewModel/langStore';
 import { memoryGridTexts } from '../viewModel/translations';
+import { secureRandomNumber } from '../utils/SecureRandom';
 
-// Card data encoding: cardId * 10 + visualState
-// visualState: 0 = face-down, 1 = face-up (selected), 2 = matched
-// Example: 20 = face-down 🔥, 21 = face-up 🔥, 22 = matched 🔥
-//
-// Primitive number array lets ArkUI detect element value changes
-// and reliably re-render the correct ForEach children.
 const STATE_CLOSED  = 0;
 const STATE_OPENED  = 1;
 const STATE_MATCHED = 2;
 
-function encodeCard(cardId: number, state: number): number {
-  return cardId * 10 + state;
+function encodeCard(pos: number, cardId: number, state: number): number {
+  return pos * 100 + cardId * 10 + state;
+}
+
+function decodePos(data: number): number {
+  return Math.floor(data / 100);
 }
 
 function decodeCardId(data: number): number {
-  return Math.floor(data / 10);
+  return Math.floor((data % 100) / 10);
 }
 
 function decodeState(data: number): number {
@@ -31,9 +30,6 @@ export function GameMemoryBlockPageBuilder() {
 
 @Component
 export struct GameMemoryBlock {
-  // Single source of truth. Each element = encodeCard(cardId, state).
-  // Replacing this array (new reference + changed element values) guarantees
-  // that ArkUI re-renders exactly the GridItems whose state changed.
   @State cardData: number[] = [];
   @State timer: number = 0;
   @State moves: number = 0;
@@ -46,8 +42,6 @@ export struct GameMemoryBlock {
   pathStack: NavPathStack = new NavPathStack();
   private unsubLang: (() => void) | null = null;
   private pendingTurnTimerId: number | null = null;
-  // Tracks the two positions selected this turn. Not @State —
-  // visual state is always driven through cardData.
   private openedPos: number[] = [];
 
   onDestroy(): void {
@@ -83,18 +77,16 @@ export struct GameMemoryBlock {
     }
   }
 
-  // Re-encode a single card's state and write the new array to @State.
   private setOneCardState(pos: number, state: number): void {
     const next: number[] = [...this.cardData];
-    next[pos] = encodeCard(decodeCardId(next[pos]), state);
+    next[pos] = encodeCard(pos, decodeCardId(next[pos]), state);
     this.cardData = next;
   }
 
-  // Re-encode two cards' states atomically in a single @State write.
   private setTwoCardStates(pos1: number, state1: number, pos2: number, state2: number): void {
     const next: number[] = [...this.cardData];
-    next[pos1] = encodeCard(decodeCardId(next[pos1]), state1);
-    next[pos2] = encodeCard(decodeCardId(next[pos2]), state2);
+    next[pos1] = encodeCard(pos1, decodeCardId(next[pos1]), state1);
+    next[pos2] = encodeCard(pos2, decodeCardId(next[pos2]), state2);
     this.cardData = next;
   }
 
@@ -121,14 +113,14 @@ export struct GameMemoryBlock {
   private buildShuffledDeck(): number[] {
     const ids: number[] = [0, 1, 2, 3, 0, 1, 2, 3];
     for (let i = ids.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(secureRandomNumber() * (i + 1));
       const tmp = ids[i];
       ids[i] = ids[j];
       ids[j] = tmp;
     }
     const deck: number[] = [];
     for (let i = 0; i < ids.length; i++) {
-      deck.push(encodeCard(ids[i], STATE_CLOSED));
+      deck.push(encodeCard(i, ids[i], STATE_CLOSED));
     }
     return deck;
   }
@@ -142,7 +134,6 @@ export struct GameMemoryBlock {
       return;
     }
 
-    // Flip selected card face-up.
     this.setOneCardState(pos, STATE_OPENED);
     this.openedPos = [...this.openedPos, pos];
 
@@ -157,7 +148,6 @@ export struct GameMemoryBlock {
     const secondCardId = decodeCardId(this.cardData[second]);
 
     if (firstCardId === secondCardId) {
-      // Match: lock both cards as matched.
       this.openedPos = [];
       this.setTwoCardStates(first, STATE_MATCHED, second, STATE_MATCHED);
 
@@ -173,7 +163,6 @@ export struct GameMemoryBlock {
         this.showToast(msg, 30);
       }
     } else {
-      // No match: flip both back after a short delay.
       this.pendingTurnTimerId = setTimeout(() => {
         this.setTwoCardStates(first, STATE_CLOSED, second, STATE_CLOSED);
         this.openedPos = [];
@@ -192,7 +181,7 @@ export struct GameMemoryBlock {
           .fontSize(12)
           .margin({ top: 8 })
         Grid() {
-          ForEach(this.cardData, (data: number, index: number) => {
+          ForEach(this.cardData, (data: number) => {
             GridItem() {
               Button(
                 decodeState(data) !== STATE_CLOSED
@@ -202,16 +191,16 @@ export struct GameMemoryBlock {
                 .width(45)
                 .height(45)
                 .fontSize(10)
-                .fontColor('#ffffff')
+                .fontColor($r('app.color.card_font_color'))
                 .backgroundColor(
-                  decodeState(data) === STATE_MATCHED ? '#2e7d32' :
-                  decodeState(data) === STATE_OPENED  ? '#4a4a4a' :
-                  '#1f1f1f'
+                  decodeState(data) === STATE_MATCHED ? $r('app.color.card_bg_matched') :
+                  decodeState(data) === STATE_OPENED  ? $r('app.color.card_bg_opened') :
+                  $r('app.color.card_bg_closed')
                 )
                 .alignSelf(ItemAlign.Center)
-                .onClick(() => this.checkMatch(index));
+                .onClick(() => this.checkMatch(decodePos(data)));
             }
-          }, (data: number, index: number) => index.toString() + '_' + decodeState(data).toString())
+          }, (data: number) => data.toString())
         }
         .height('50%')
         .columnsTemplate('repeat(4, 0.9fr)')
